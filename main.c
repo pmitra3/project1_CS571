@@ -44,9 +44,7 @@ int main() {
 
     //Free memory to avoid leaks
 
-    free_expr(e1);
-    free_expr(e2);
-    free_expr(e3);
+
 
     return 0;
 }
