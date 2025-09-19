@@ -52,9 +52,9 @@ struct Expr *mk_float(float f) {
  * using the above constructors.
  */
 struct Expr *mk_expr1() {
-     struct Expr *five = mk_float(5.0f);
-    struct Expr *three = mk_float(3.0f);
-    struct Expr *two = mk_float(2.0f);
+    struct Expr *five = mk_float(5.0);
+    struct Expr *three = mk_float(3.0);
+    struct Expr *two = mk_float(2.0);
 
     struct Expr *five_times_three = mk_times(five, three);
     struct Expr *expr = mk_plus(two, five_times_three);
@@ -65,9 +65,9 @@ struct Expr *mk_expr1() {
  * using the above constructors.
  */
 struct Expr *mk_expr2() {
-    struct Expr *three = mk_float(3.0f);
-    struct Expr *one = mk_float(1.0f);
-    struct Expr *eight = mk_float(8.0f);
+    struct Expr *three = mk_float(3.0);
+    struct Expr *one = mk_float(1.0);
+    struct Expr *eight = mk_float(8.0);
 
     struct Expr *one_div_eight = mk_div(one, eight);
     struct Expr *expr = mk_plus(three, one_div_eight);
@@ -78,13 +78,18 @@ struct Expr *mk_expr2() {
  * using the above constructors.
  */
 struct Expr *mk_expr3() {
-   struct Expr *four = mk_float(4.0f);
-    struct Expr *three = mk_float(3.0f);
-    struct Expr *two = mk_float(2.0f);
+    /* Use distinct nodes; don't reuse the same pointer in two places. */
+    struct Expr *four_a  = mk_float(4.0);
+    struct Expr *three_a = mk_float(3.0);
 
-    struct Expr *four_div_three = mk_div(four, three);
-    struct Expr *two_plus_three = mk_plus(two, three);
-    struct Expr *four_div_sum = mk_div(four, two_plus_three);
+    struct Expr *two     = mk_float(2.0);
+    struct Expr *three_b = mk_float(3.0);
+
+    struct Expr *four_b  = mk_float(4.0);
+
+    struct Expr *four_div_three = mk_div(four_a, three_a);
+    struct Expr *two_plus_three = mk_plus(two, three_b);
+    struct Expr *four_div_sum   = mk_div(four_b, two_plus_three);
     struct Expr *expr = mk_minus(four_div_three, four_div_sum);
     return expr;
 }
@@ -95,7 +100,7 @@ struct Expr *mk_expr3() {
  * with the given AST.
 */
 void free_expr(struct Expr* e) {
-     if (!e) return;
+    if (!e) return;
 
     if (e->type == PLUS || e->type == MINUS || e->type == TIMES || e->type == DIV) {
         free_expr(e->subexprs.e1);
@@ -109,7 +114,7 @@ void free_expr(struct Expr* e) {
  * return the floating-point result.
 */
 float eval(struct Expr* e) {
-    if (!e) return 0.0f;
+    if (!e) return 0.0;
 
     switch (e->type) {
         case PLUS:
@@ -123,7 +128,6 @@ float eval(struct Expr* e) {
         case FLOAT:
             return e->literal;
         default:
-            return 0.0f; // Should not happen
-}
-
+            return 0.0; // Should not happen
+    }
 }
