@@ -1,4 +1,4 @@
-/* Collaborators: None*/
+
 
 /*
  * An enumeration for AST node types. A node's type is 
@@ -69,4 +69,3 @@ void free_expr(struct Expr *e);
 float eval(struct Expr *e);
 
 void print_expr(struct Expr *e);
-
